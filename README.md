@@ -2,7 +2,7 @@
 
 ## What is Command-Vee?
 
-Command-Vee is the result of a two-day sprint to pull over 850 blog posts from an old HTML blog into a shiny new Wordpress one. It may not be the easiest, most elegant set of scripts ever. But it **did** save us 35 hours of manual content entry, so there's that!
+Command-Vee is the result of a two-day sprint to pull over 850 blog posts from an old HTML blog into a shiny new Wordpress one. It may not be the easiest, most elegant set of scripts ever. But it **did** save us 45 hours of manual content entry, so there's that!
 
 
 ## What can I do with it?
@@ -60,6 +60,6 @@ _License: [GNU General Public License - Version 3](https://github.com/paper-leaf
 
 Since this little collection of code saved me from doing a full-time week of copy and paste, I named it after the keyboard shortcut for 'paste'!
 
-Why not **command-** ... see? cee? sea?
+Why not command- ... see? cee? sea?
 
 That's why.
