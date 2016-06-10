@@ -45,3 +45,21 @@ In order to add fields:
 2. Add  a call to your new function to `processData()`.
 3. Add a default value for your field to the initial page object (line 211) in the main code block.
 4. Add any new logic to `./custom-post-importer.php` to get your field into Wordpress.
+
+##Follow Us!
+
+Follow [@paper_leaf](https://twitter.com/paper_leaf) on Twitter.
+
+##Copyright & License
+
+© 2016 Paper Leaf Design
+
+_License: [GNU General Public License - Version 3](https://github.com/paper-leaf/command-vee/blob/master/LICENSE)_
+
+##But Why 'Command-Vee'?
+
+Since this little collection of code saved me from doing a full-time week of copy and paste, I named it after the keyboard shortcut for 'paste'!
+
+Why not **command-** ... see? cee? seye?
+
+That's why.
