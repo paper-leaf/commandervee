@@ -60,6 +60,6 @@ _License: [GNU General Public License - Version 3](https://github.com/paper-leaf
 
 Since this little collection of code saved me from doing a full-time week of copy and paste, I named it after the keyboard shortcut for 'paste'!
 
-Why not **command-** ... see? cee? seye?
+Why not **command-** ... see? cee? sea?
 
 That's why.
