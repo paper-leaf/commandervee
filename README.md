@@ -1,13 +1,13 @@
 #README
 
-## What is Command-Vee?
+## What is Commander Vee?
 
-Command-Vee is the result of a two-day sprint to pull over 850 blog posts from an old HTML blog into a shiny new Wordpress one. It may not be the easiest, most elegant set of scripts ever. But it **did** save us 45 hours of manual content entry, so there's that!
+Commander Vee is the result of a two-day sprint to pull over 850 blog posts from an old HTML blog into a shiny new Wordpress one. It may not be the easiest, most elegant set of scripts ever. But it **did** save us 45 hours of manual content entry, so there's that!
 
 
 ## What can I do with it?
 
-Whatever you want (no, seriously). Command-Vee is not a polished plug-and-play script, but that doesn't mean you can't use it to _inspire_ a polished plug-and-play script!
+Whatever you want (no, seriously). Commander Vee is not a polished plug-and-play script, but that doesn't mean you can't use it to _inspire_ a polished plug-and-play script!
 
 ##How do I do that?
 
@@ -56,7 +56,7 @@ Follow [@paper_leaf](https://twitter.com/paper_leaf) on Twitter.
 
 _License: [GNU General Public License - Version 3](https://github.com/paper-leaf/command-vee/blob/master/LICENSE)_
 
-##But Why 'Command-Vee'?
+##But Why 'Commander Vee'?
 
 Since this little collection of code saved me from doing a full-time week of copy and paste, I named it after the keyboard shortcut for 'paste'!
 
