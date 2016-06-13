@@ -2,7 +2,7 @@
 
 ## What is Commander Vee?
 
-Commander Vee is the result of a two-day sprint to pull over 850 blog posts from an old HTML blog into a shiny new Wordpress one. It may not be the easiest, most elegant set of scripts ever. But it **did** save us 45 hours of manual content entry, so there's that!
+Commander Vee is the result of a two-day sprint to pull over 850 blog posts from an old HTML blog into a shiny new WordPress one. It may not be the easiest, most elegant set of scripts ever. But it **did** save us 45 hours of manual content entry, so there's that!
 
 
 ## What can I do with it?
@@ -30,10 +30,10 @@ The following assumes that you have a folder on your localhost containing all of
 ###Instructions for custom-post-importer.php:
 The following assumes that you have files containing the JSON produced by `./crawler.js` loaded on your localhost at some address.
 
-1. Place this file in the base folder of your Wordpress theme.
+1. Place this file in the base folder of your WordPress theme.
 2. Modify the 'Load up the JSON' section (line 11) to point at your JSON files. Note that each post category requires a separate JSON file.
 3. Modify the calls to `importPages()` on line 82 to match the code you tweaked on step 2. Additionally, provide the category IDs you wish to associate with the posts from each file.
-4. Ensure your Wordpress install contains categories that match the IDs you provided in step 3.
+4. Ensure your WordPress install contains categories that match the IDs you provided in step 3.
 5. Run this file (we used Chrome, but experiment away!).
 6. Verify that the file ran without PHP errors, and then check out your newly imported posts!
 
@@ -44,7 +44,7 @@ In order to add fields:
 1. Add an `extract<new_field_name>()` method that returns the information you need.
 2. Add  a call to your new function to `processData()`.
 3. Add a default value for your field to the initial page object (line 211) in the main code block.
-4. Add any new logic to `./custom-post-importer.php` to get your field into Wordpress.
+4. Add any new logic to `./custom-post-importer.php` to get your field into WordPress.
 
 ##Follow Us!
 
