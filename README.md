@@ -1,4 +1,4 @@
-#README
+# README
 
 ## What is Commander Vee?
 
@@ -9,15 +9,15 @@ Commander Vee is the result of a two-day sprint to pull over 850 blog posts from
 
 Whatever you want (no, seriously). Commander Vee is not a polished plug-and-play script, but that doesn't mean you can't use it to _inspire_ a polished plug-and-play script!
 
-##How do I do that?
+## How do I do that?
 
 So glad you asked.
 
-###Getting set up
+### Getting set up
 In our case, we needed to pull all of these blog posts off of a site with cross-domain security enabled. While it was a big site, it wasn't **big** big, so we pulled down a local copy of all the posts we needed using
 ```wget -i urls_to_dl.txt```
 
-###Instructions for crawler.js / crawler.php:
+### Instructions for crawler.js / crawler.php:
 
 The following assumes that you have a folder on your localhost containing all of the `*.html` files you wish to scrape.
 
@@ -27,7 +27,7 @@ The following assumes that you have a folder on your localhost containing all of
 4. Enjoy your JSONified site... Or keep going!
 
 
-###Instructions for custom-post-importer.php:
+### Instructions for custom-post-importer.php:
 The following assumes that you have files containing the JSON produced by `./crawler.js` loaded on your localhost at some address.
 
 1. Place this file in the base folder of your WordPress theme.
@@ -37,7 +37,7 @@ The following assumes that you have files containing the JSON produced by `./cra
 5. Run this file (we used Chrome, but experiment away!).
 6. Verify that the file ran without PHP errors, and then check out your newly imported posts!
 
-###Crawler Modifications:
+### Crawler Modifications:
 To tweak this file to your specific needs, modify the `extract<thing_to_extract>()` functions in `crawler.js` to select the necessary elements.
 
 In order to add fields:
@@ -46,17 +46,17 @@ In order to add fields:
 3. Add a default value for your field to the initial page object (line 211) in the main code block.
 4. Add any new logic to `./custom-post-importer.php` to get your field into WordPress.
 
-##Follow Us!
+## Follow Us!
 
 Follow [@paper_leaf](https://twitter.com/paper_leaf) on Twitter.
 
-##Copyright & License
+## Copyright & License
 
 © 2016 Paper Leaf Design
 
 _License: [GNU General Public License - Version 3](https://github.com/paper-leaf/command-vee/blob/master/LICENSE)_
 
-##But Why 'Commander Vee'?
+## But Why 'Commander Vee'?
 
 Since this little collection of code saved me from doing a full-time week of copy and paste, I named it after the keyboard shortcut for 'paste'!
 
