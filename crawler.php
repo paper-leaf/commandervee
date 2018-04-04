@@ -7,7 +7,7 @@
 		<div id="imported-content"></div>
 	</body>
 	<div id="file-collection">
-		<?php 
+		<?php
 			$filedir = 'site-pages/in-depth';
 			$files = scandir($filedir);
 			foreach ($files as $key=>$file) {
@@ -15,6 +15,6 @@
 					echo '<div class="file" id="http://localhost/devon/labs/crawler/' . $filedir . '/' . rawurlencode($file) . '"></div>';
 				}
 			}
-		 ?>
+		?>
 	</div>
 </html>

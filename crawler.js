@@ -1,13 +1,13 @@
 /**
  * INSTRUCTIONS:
- *   1. Run a site scrape (using wget or equivalent) to load all the pages you 
+ *   1. Run a site scrape (using wget or equivalent) to load all the pages you
  *      wish to JSON-ify onto the localhost.
  *   2. Point line 11 of ./crawler.php to the folder containing all the *.html
  *      files.
  *   3. Open ./crawler.php in your browser and let the script run.
  *   4. Remove the trailing comma and manually add wrapper curly braces to
  *      json.txt.
- *   5. Enjoy your JSONified site. May be used in conjunction with 
+ *   5. Enjoy your JSONified site. May be used in conjunction with
  *      ./custom-post-importer.php
  *
  *
@@ -15,36 +15,30 @@
  *   To tweak this file to your specific needs, modify the extract*() functions
  *   to select the necessary elements.
  *
- *   In order to add fields, additional logic would also be required to 
+ *   In order to add fields, additional logic would also be required to
  *   ./custom-post-importer.
  */
 
 $(document).ready(function() {
 
-	var content_selector = "#content";
+	var content_selector = "#mainContent";
+	var files = $('#file-collection .file');
 
 
 	/**
 	 * MAIN FUNCTIONS
 	 */
 
-	var JSONify = function(url, page) {
+	var JSONify = function (url, page) {
+
 
 		try {
-			result = $('#imported-content').load(url, function(responseText, textStatus, jqXHR){
 
-				if (textStatus==='success') {
+			result = $('#imported-content').load(url, function (responseText, textStatus, jqXHR) {
+
+				if (textStatus === 'success') {
+					// console.log('Processing ' + url);
 					processData(page);
-
-					try {
-						var slug = url.split(' ')[0].split('/');
-						$('#imported-content').attr('data-slug', slug[slug.length-1].split('.')[0]);
-
-					} catch(e) {
-						console.log('Issue getting slug for ' + url);
-						error.log(e)
-
-					}
 
 				} else {
 					console.log('Could not load ' + url);
@@ -62,19 +56,20 @@ $(document).ready(function() {
 
 	};
 
-	
+
 	var processData = function(page) {
 
-		page.page_slug = $('#imported-content').attr('data-slug');
+		// page.page_slug = $('#imported-content').attr('data-slug');
 		page.title = extractTitle();
-		page.author = extractAuthor();
-		page.author_slug = extractAuthorSlug();
-		page.publish_date = extractPublishDate();
-		page.featured_image = extractFeaturedImage();
+		// page.author = extractAuthor();
+		// page.author_slug = extractAuthorSlug();
+		// page.publish_date = extractPublishDate();
+		// page.featured_image = extractFeaturedImage();
 		page.content = extractContent();
+		page.attachments = extractAttachments();
 
 		exportData(page);
-	
+
 	};
 
 
@@ -89,7 +84,6 @@ $(document).ready(function() {
 			dataType: 'json',
 		});
 
-		var files = $('#file-collection .file');
 		if (page.page_num+1 < files.length) {
 			files.eq(page.page_num+1).trigger('JSONify');
 		};
@@ -101,12 +95,12 @@ $(document).ready(function() {
 	/**
 	 * EXTRACTION FUNCTIONS
 	 */
-	
+
 	var extractTitle = function() {
 		var title = '';
 
 		try {
-			title = $('#parent-fieldname-title').text().trim();
+			title = $('#mainContent .pageTitle').text().trim();
 
 		} finally {
 			return title;
@@ -125,33 +119,33 @@ $(document).ready(function() {
 
 		}
 	};
-	
+
 	var extractAuthorSlug = function() {
 		var author_slug = '';
 
 		try {
 			author_url_bits = $('#content .documentByLine a').attr('href').split('/');
 			author_slug = author_url_bits[author_url_bits.length-1];
-		
+
 		} finally {
 			return author_slug;
 
 		}
 	};
-	
+
 	var extractPublishDate = function() {
 		var date = '';
 
 		try {
 			date_string = $('#content .documentByLine').text().split('by')[0].trim();
 			date = new Date(date_string);
-		
+
 		} finally {
 			return date;
 
 		}
 	};
-	
+
 	var extractFeaturedImage = function() {
 		var image = '';
 
@@ -165,14 +159,13 @@ $(document).ready(function() {
 		}
 
 	};
-	
+
 	var extractContent = function() {
 		var content = '';
 
 		try {
-			var no_share_content = $('#parent-fieldname-text').clone().find('#share-buttons').remove().end();
-			content = no_share_content.html().trim();
-			// Eff you, MS Word.
+			content = $('#mainContent').html().trim();
+			// // Eff you, MS Word.
 			content = content.replace(/[\u2018\u2019\u201A]/g, "\'");
 			content = content.replace(/[\u201C\u201D\u201E]/g, "\"");
 			content = content.replace(/\u2026/g, "...");
@@ -182,12 +175,39 @@ $(document).ready(function() {
 			content = content.replace(/\u203A/g, ">");
 			content = content.replace(/[\u02DC\u00A0]/g, " ");
 			content = content.replace(/[^ -~]/g, '');
-		
+
 		} finally {
 			return content;
 
 		}
 	};
+
+	var extractAttachments = function () {
+		var attachments = [];
+
+		try {
+			// Find downloadable files
+			$('#mainContent a').each(function () {
+				let href = $(this).attr('href');
+				if ($(this).hasClass('download')) {
+					attachments.push(href);
+				} else if (href.indexOf('fileadmin/') === 0) {
+					attachments.push(href);
+				}
+			});
+			$('#mainContent img').each(function () {
+				let src = $(this).attr('src');
+				if (src.indexOf('fileadmin/') === 0) {
+					attachments.push(src);
+				}
+			});
+
+			//
+		} finally {
+			console.log(attachments);
+			return attachments;
+		}
+	}
 
 
 
@@ -195,11 +215,11 @@ $(document).ready(function() {
 	 * MAIN CODE
 	 */
 
-	 var counter = 0;
+	var counter = 0;
 
-	 $('#file-collection .file').on('JSONify', function(){
-	 	// console.log('Loading ' + $(this).attr('id') + ' ...');
-	 	
+	$('#file-collection .file').on('JSONify', function () {
+		// console.log('Loading ' + $(this).attr('id') + ' ...');
+
 	 	var this_page = {
 	 		page_num		: counter,
 	 		page_slug		: '',
@@ -209,15 +229,17 @@ $(document).ready(function() {
 	 		publish_date	: '',
 	 		featured_image	: '',
 	 		content			: '',
+	 		attachments		: [],
+			old_url			: $(this).attr('id'),
 	 	};
 
-	 	counter ++;
+		counter ++;
 
-	 	JSONify($(this).attr('id') + ' ' + content_selector, this_page);
+		JSONify($(this).attr('id') + ' ' + content_selector, this_page);
 
-	 });
+	});
 
-	 $('#file-collection .file').first().trigger('JSONify');
-	 // $('#file-collection .file').eq(70).trigger('JSONify');
+	$('#file-collection .file').first().trigger('JSONify');
+	// $('#file-collection .file').eq(70).trigger('JSONify');
 });
 
