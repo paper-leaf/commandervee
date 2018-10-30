@@ -142,12 +142,14 @@ $(document).ready(function() {
 			$(CONTENT_SELECTOR + ' a').each(function () {
 				let href = $(this).attr('href');
 				if (href.indexOf('doc.aspx') === 0) {
+					href = 'https://www.afsc.ca/' + href;
 					attachments.push(href);
 				}
 			});
 			$(CONTENT_SELECTOR + ' img').each(function () {
 				let src = $(this).attr('src');
 				if (src.indexOf('image.aspx') === 0) {
+					href = 'https://www.afsc.ca/' + href;
 					attachments.push(src);
 				}
 			});

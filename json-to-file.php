@@ -1,8 +1,8 @@
 <?php
 
-	$my_JSON = $_POST['json']; 
+	$my_JSON = $_POST['json'];
 
-	$fp = fopen('json.txt', 'a'); // Open file in append mode
+	$fp = fopen('results.json', 'a'); // Open file in append mode
 
 	if (flock($fp, LOCK_EX)) { // Wait to get file lock
 		ob_start();

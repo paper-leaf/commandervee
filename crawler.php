@@ -20,7 +20,7 @@
 			// === EXTERNAL URLS ===============================================
 			$contents = file('site-urls/to-crawl.txt');
 			foreach($contents as $line) {
-				echo '<div class="file" id="' . $line . '"></div>';
+				echo '<div class="file" id="' . trim($line) . '"></div>';
 			}
 		?>
 	</div>
