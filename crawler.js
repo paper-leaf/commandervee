@@ -139,18 +139,24 @@ $(document).ready(function() {
 
 		try {
 			// Find downloadable files
-			$(CONTENT_SELECTOR + ' a').each(function () {
+			$('#content a').each(function () {
 				let href = $(this).attr('href');
 				if (href.indexOf('doc.aspx') === 0) {
-					href = 'https://www.afsc.ca/' + href;
-					attachments.push(href);
+					var file = {
+						'link': href,
+						'title': $(this).text()
+					}
+					attachments.push(file);
 				}
 			});
-			$(CONTENT_SELECTOR + ' img').each(function () {
+			$('#content img').each(function () {
 				let src = $(this).attr('src');
 				if (src.indexOf('image.aspx') === 0) {
-					href = 'https://www.afsc.ca/' + href;
-					attachments.push(src);
+					var image = {
+						'link': src,
+						'title': $(this).attr('title') ? $(this).attr('title') : ''
+					}
+					attachments.push(image);
 				}
 			});
 
