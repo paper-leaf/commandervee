@@ -8,12 +8,19 @@
 	</body>
 	<div id="file-collection">
 		<?php
-			$filedir = 'site-pages/in-depth';
-			$files = scandir($filedir);
-			foreach ($files as $key=>$file) {
-				if (substr($file, -5) === '.html') {
-					echo '<div class="file" id="http://localhost/devon/labs/crawler/' . $filedir . '/' . rawurlencode($file) . '"></div>';
-				}
+			// === LOCAL HTML FILES ============================================
+			// $filedir = 'site-pages';
+			// $files = scandir($filedir);
+			// foreach ($files as $key=>$file) {
+			// 	if (substr($file, -5) === '.html') {
+			// 		echo '<div class="file" id="http://localhost/devon/labs/crawler/' . $filedir . '/' . rawurlencode($file) . '"></div>';
+			// 	}
+			// }
+
+			// === EXTERNAL URLS ===============================================
+			$contents = file('site-urls/to-crawl.txt');
+			foreach($contents as $line) {
+				echo '<div class="file" id="' . $line . '"></div>';
 			}
 		?>
 	</div>

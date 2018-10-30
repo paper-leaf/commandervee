@@ -21,7 +21,11 @@
 
 $(document).ready(function() {
 
-	var content_selector = "#mainContent";
+	var PAGE_SELECTOR = "#content";
+
+	var TITLE_SELECTOR = "#ctl00_mainContent_pageTitle";
+	var CONTENT_SELECTOR = "#ctl00_mainContent_pageContent";
+
 	var files = $('#file-collection .file');
 
 
@@ -42,7 +46,7 @@ $(document).ready(function() {
 
 				} else {
 					console.log('Could not load ' + url);
-					files.eq(page.page_num+1).trigger('JSONify');
+					files.eq(page.page_num + 1).trigger('JSONify');
 
 				};
 
@@ -59,14 +63,14 @@ $(document).ready(function() {
 
 	var processData = function(page) {
 
-		// page.page_slug = $('#imported-content').attr('data-slug');
 		page.title = extractTitle();
+		page.content = extractContent();
+		page.attachments = extractAttachments();
+
 		// page.author = extractAuthor();
 		// page.author_slug = extractAuthorSlug();
 		// page.publish_date = extractPublishDate();
 		// page.featured_image = extractFeaturedImage();
-		page.content = extractContent();
-		page.attachments = extractAttachments();
 
 		exportData(page);
 
@@ -100,13 +104,59 @@ $(document).ready(function() {
 		var title = '';
 
 		try {
-			title = $('#mainContent .pageTitle').text().trim();
+			title = $(TITLE_SELECTOR).text().trim();
 
 		} finally {
 			return title;
 
 		}
 	};
+
+	var extractContent = function () {
+		var content = '';
+
+		try {
+			content = $(CONTENT_SELECTOR).html().trim();
+			// // Eff you, MS Word.
+			content = content.replace(/[\u2018\u2019\u201A]/g, "\'");
+			content = content.replace(/[\u201C\u201D\u201E]/g, "\"");
+			content = content.replace(/\u2026/g, "...");
+			content = content.replace(/[\u2013\u2014]/g, "-");
+			content = content.replace(/\u02C6/g, "^");
+			content = content.replace(/\u2039/g, "<");
+			content = content.replace(/\u203A/g, ">");
+			content = content.replace(/[\u02DC\u00A0]/g, " ");
+			content = content.replace(/[^ -~]/g, '');
+
+		} finally {
+			return content;
+
+		}
+	};
+
+	var extractAttachments = function () {
+		var attachments = [];
+
+		try {
+			// Find downloadable files
+			$(CONTENT_SELECTOR + ' a').each(function () {
+				let href = $(this).attr('href');
+				if (href.indexOf('doc.aspx') === 0) {
+					attachments.push(href);
+				}
+			});
+			$(CONTENT_SELECTOR + ' img').each(function () {
+				let src = $(this).attr('src');
+				if (src.indexOf('image.aspx') === 0) {
+					attachments.push(src);
+				}
+			});
+
+		} finally {
+			console.log(attachments);
+			return attachments;
+		}
+	}
 
 	var extractAuthor = function() {
 		var author = '';
@@ -160,55 +210,6 @@ $(document).ready(function() {
 
 	};
 
-	var extractContent = function() {
-		var content = '';
-
-		try {
-			content = $('#mainContent').html().trim();
-			// // Eff you, MS Word.
-			content = content.replace(/[\u2018\u2019\u201A]/g, "\'");
-			content = content.replace(/[\u201C\u201D\u201E]/g, "\"");
-			content = content.replace(/\u2026/g, "...");
-			content = content.replace(/[\u2013\u2014]/g, "-");
-			content = content.replace(/\u02C6/g, "^");
-			content = content.replace(/\u2039/g, "<");
-			content = content.replace(/\u203A/g, ">");
-			content = content.replace(/[\u02DC\u00A0]/g, " ");
-			content = content.replace(/[^ -~]/g, '');
-
-		} finally {
-			return content;
-
-		}
-	};
-
-	var extractAttachments = function () {
-		var attachments = [];
-
-		try {
-			// Find downloadable files
-			$('#mainContent a').each(function () {
-				let href = $(this).attr('href');
-				if ($(this).hasClass('download')) {
-					attachments.push(href);
-				} else if (href.indexOf('fileadmin/') === 0) {
-					attachments.push(href);
-				}
-			});
-			$('#mainContent img').each(function () {
-				let src = $(this).attr('src');
-				if (src.indexOf('fileadmin/') === 0) {
-					attachments.push(src);
-				}
-			});
-
-			//
-		} finally {
-			console.log(attachments);
-			return attachments;
-		}
-	}
-
 
 
 	/**
@@ -218,8 +219,6 @@ $(document).ready(function() {
 	var counter = 0;
 
 	$('#file-collection .file').on('JSONify', function () {
-		// console.log('Loading ' + $(this).attr('id') + ' ...');
-
 	 	var this_page = {
 	 		page_num		: counter,
 	 		page_slug		: '',
@@ -235,11 +234,10 @@ $(document).ready(function() {
 
 		counter ++;
 
-		JSONify($(this).attr('id') + ' ' + content_selector, this_page);
+		JSONify($(this).attr('id') + ' ' + PAGE_SELECTOR, this_page);
 
 	});
 
 	$('#file-collection .file').first().trigger('JSONify');
-	// $('#file-collection .file').eq(70).trigger('JSONify');
 });
 
