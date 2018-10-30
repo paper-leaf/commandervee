@@ -157,24 +157,24 @@ function sideload_attachment($file) {
         require_once(ABSPATH . 'wp-admin/includes/image.php');
         $file_array = array();
 
-        // COMPLICATED METHOD
-        if ( strpos(basename($file_link), 'image') !== false ) {
-            $file_array['name'] = ($file_title ? $file_title : uniqid()) .'.jpg'; //basename( $file );
-        } elseif ( strpos(basename($file_link), 'doc') !== false ) {
-            $file_array['name'] = ($file_title ? $file_title : uniqid()) .'.pdf';
-        } else {
-            $file_array['name'] = ($file_title ? $file_title : uniqid()) . 'tmp';
-        }
-        $temp_filename = wp_tempnam();
-        $fput = file_put_contents($temp_filename, file_get_contents($file_link));
-        $file_array['tmp_name'] = $temp_filename;
+		// BASIC METHOD
+		$file_array['name'] = basename( $file_link );
+		$file_array['tmp_name'] = download_url( $file_link );
+		if ( is_wp_error( $file_array['tmp_name'] ) ) {
+			return $file_array['tmp_name'];
+		}
 
-        // BASIC METHOD
-        // $file_array['name'] = basename( $file_link );
-        // $file_array['tmp_name'] = download_url( $file_link );
-        // if ( is_wp_error( $file_array['tmp_name'] ) ) {
-        //     return $file_array['tmp_name'];
+        // COMPLICATED METHOD
+        // if ( strpos(basename($file_link), 'image') !== false ) {
+        //     $file_array['name'] = ($file_title ? $file_title : uniqid()) .'.jpg'; //basename( $file );
+        // } elseif ( strpos(basename($file_link), 'doc') !== false ) {
+        //     $file_array['name'] = ($file_title ? $file_title : uniqid()) .'.pdf';
+        // } else {
+        //     $file_array['name'] = ($file_title ? $file_title : uniqid()) . 'tmp';
         // }
+        // $temp_filename = wp_tempnam();
+        // $fput = file_put_contents($temp_filename, file_get_contents($file_link));
+        // $file_array['tmp_name'] = $temp_filename;
 
         // Do the validation and storage stuff.
         $id = media_handle_sideload( $file_array, 0, $desc );
